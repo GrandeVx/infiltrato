@@ -1,7 +1,7 @@
+import { getAuth } from '@clerk/nextjs/server';
 import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({
-  // "/" will be accessible to all users
     publicRoutes: ["/","/api/trpc/example.hello"]
 });
 

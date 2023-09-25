@@ -2,7 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 
 import { api } from "@/utils/api";
-import { SignInButton } from "@clerk/nextjs";
+import { SignInButton, SignOutButton } from "@clerk/nextjs";
 
 export default function Home() {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
@@ -49,6 +49,8 @@ export default function Home() {
           <div className="delay-50 rounded-xl bg-[hsl(280,100%,70%)] p-3 pl-5 pr-5 transition-all ease-in hover:text-white">
             <SignInButton />
           </div>
+          <SignOutButton />
+        
         </div>
       </main>
     </>

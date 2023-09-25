@@ -12,11 +12,81 @@ generator client {
 }
 
 
-model Example {
+
+model User {
+
+    id        Int      @id @default(autoincrement())
+    authId    String   @unique
+    name      String
+    surname   String
+
+    // Sub connection
+    domain    String
+    province  String
+    city      String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([authId])
+    @@index([id])
+
+    // Relation
+    subs Sub[]
+    messages Message[]
+    comments Comment[]
+}
+
+model Sub {
     id        Int      @id @default(autoincrement())
     name      String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-
     @@index([name])
+
+    // Relation
+    users User[]
+    messages Message[]
+}
+
+model Message {
+    id        Int      @id @default(autoincrement())
+    sender_id Int      
+    sub_id    Int
+
+    content      String
+    boost    Int  @default(0)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([sender_id])
+    @@index([sub_id])
+    
+    // Relation
+
+    sender User @relation(fields: [sender_id], references: [id])
+    sub    Sub  @relation(fields: [sub_id], references: [id])
+    comments Comment[]
+}
+
+model Comment {
+
+    id        Int      @id @default(autoincrement())
+    sender_id Int      
+    message_id Int
+
+    content      String
+    boost    Int  @default(0)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([sender_id])
+    @@index([message_id])
+    
+    // Relation
+
+    sender User @relation(fields: [sender_id], references: [id])
+    message    Message  @relation(fields: [message_id], references: [id])
 }
