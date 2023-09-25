@@ -26,8 +26,8 @@ model User {
     
     // Sub connection
     domain    String   @default("NULL")
-    province  String  
-    city      String
+    province  String   @default("NULL")
+    city      String   @default("NULL")
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

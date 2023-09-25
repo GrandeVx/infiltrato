@@ -22,7 +22,7 @@ export const userProcedure = createTRPCRouter({
             id : z.string(),
         }))
         .query(async ({ ctx }) => {
-        return await ctx.prisma.user.findMany(
+        const data =  await ctx.prisma.user.findMany(
             {
                 select : {
                     id : true,
@@ -38,6 +38,7 @@ export const userProcedure = createTRPCRouter({
                     id : ctx.currentUser,
                 }
         });
+        return data[0];
     }),
 
 });
