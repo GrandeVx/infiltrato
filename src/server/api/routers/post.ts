@@ -23,6 +23,24 @@ const ratelimit = new Ratelimit({
 
 export const postsRouter = createTRPCRouter({
 
+    getUser : privateProcedure.query(async ({ ctx }) => {
+        const user = await ctx.prisma.user.findUnique({
+            where: {
+                authId: ctx.currentUser,
+            },
+        });
+
+        if (!user) {
+            throw new TRPCError({
+                code: "INTERNAL_SERVER_ERROR",
+                message: "User not found",
+            });
+        }
+        
+        
+    }
+
+
     getAll: publicProcedure.query(async ({ ctx }) => {
         
         const posts = await ctx.prisma.post.findMany({
