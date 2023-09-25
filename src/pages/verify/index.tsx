@@ -9,19 +9,13 @@ export default function Verify() {
 
   const ctx = api.useContext();
 
-  if (!isLoaded) {
-    return <LoadingPage />;
-  }
-
-  if (!user) {
-    return <h1>Not logged in</h1>;
-  }
-
   const { data, isLoading: userLoading } = api.user.getUser.useQuery({
-    id: user.id,
+    id: user?.id,
   });
 
-  console.log(data);
+  if (!isLoaded || userLoading) {
+    return <LoadingPage />;
+  }
 
   return <h1>Ciao</h1>;
 }

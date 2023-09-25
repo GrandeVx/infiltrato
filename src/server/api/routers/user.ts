@@ -5,8 +5,8 @@ import { createTRPCRouter, publicProcedure , privateProcedure} from "@/server/ap
 export const userProcedure = createTRPCRouter({
 
     getAllUsers : publicProcedure
-        .query(({ ctx }) => {
-        return ctx.prisma.user.findMany(
+        .query(async ({ ctx }) => {
+        return await ctx.prisma.user.findMany(
             {
                 select : {
                     id : true,
@@ -21,7 +21,7 @@ export const userProcedure = createTRPCRouter({
         .input(z.object({
             id : z.string(),
         }))
-        .query( async ({ ctx }) => {
+        .query(async ({ ctx }) => {
         return await ctx.prisma.user.findMany(
             {
                 select : {
