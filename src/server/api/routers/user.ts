@@ -3,12 +3,26 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure , privateProcedure} from "@/server/api/trpc";
 
 export const userProcedure = createTRPCRouter({
+
+    getAllUsers : publicProcedure
+        .query(({ ctx }) => {
+        return ctx.prisma.user.findMany(
+            {
+                select : {
+                    id : true,
+                    domain : true,
+                    province : true,
+                    city : true,
+                },
+        });
+    }),
+
     getUser : privateProcedure
         .input(z.object({
             id : z.string(),
         }))
-        .query(({ ctx }) => {
-        return ctx.prisma.user.findMany(
+        .query( async ({ ctx }) => {
+        return await ctx.prisma.user.findMany(
             {
                 select : {
                     id : true,
