@@ -3,8 +3,9 @@ import { User } from "@clerk/nextjs/dist/types/server";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { createTRPCRouter, privateProcedure, publicProcedure } from "@/server/api/trpc";
-import { Ratelimit } from "@upstash/ratelimit"; // for deno: see above
-import { Redis } from "@upstash/redis";
+
+//import { Ratelimit } from "@upstash/ratelimit"; // for deno: see above
+// import { Redis } from "@upstash/redis";
 
 
 
@@ -13,13 +14,14 @@ const filterUseForClient = (user: User) => {
 }
 
 // Create a new ratelimiter, that allows 3 rqeuests per minute
+/*
 const ratelimit = new Ratelimit({
     redis: Redis.fromEnv(),
     limiter: Ratelimit.slidingWindow(3, "1 m"),
     analytics: true,
     prefix: "@upstash/ratelimit",
 });
-
+*/
 
 export const postsRouter = createTRPCRouter({
 
@@ -38,7 +40,7 @@ export const postsRouter = createTRPCRouter({
         }
         
         
-    }
+    }),
 
 
     getAll: publicProcedure.query(async ({ ctx }) => {

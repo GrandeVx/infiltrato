@@ -1,19 +1,22 @@
 import { z } from "zod";
-
-import { createTRPCRouter, publicProcedure , privateProcedure} from "@/server/api/trpc";
+import { clerkClient } from "@clerk/nextjs";
+import { TRPCError } from "@trpc/server";
+import {
+  createTRPCRouter,
+  publicProcedure,
+  privateProcedure,
+} from "@/server/api/trpc";
 
 export const userProcedure = createTRPCRouter({
 
-    getAllUsers : publicProcedure
-        .query(async ({ ctx }) => {
-        return await ctx.prisma.user.findMany(
-            {
-                select : {
-                    id : true,
-                    domain : true,
-                    province : true,
-                    city : true,
-                },
+    getAllUsers: publicProcedure.query(async ({ ctx }) => {
+        return await ctx.prisma.user.findMany({
+        select: {
+            id: true,
+            domain: true,
+            province: true,
+            city: true,
+        },
         });
     }),
 
@@ -22,7 +25,7 @@ export const userProcedure = createTRPCRouter({
             id : z.string(),
         }))
         .query(async ({ ctx }) => {
-        const data =  await ctx.prisma.user.findMany(
+        return await ctx.prisma.user.findMany(
             {
                 select : {
                     id : true,
@@ -34,11 +37,12 @@ export const userProcedure = createTRPCRouter({
                     comments : true,
                 },
 
-                where : {
-                    id : ctx.currentUser,
-                }
+        where: {
+            id: ctx.currentUser,
+        },
         });
-        return data[0];
     }),
 
-});
+    
+
+    });
